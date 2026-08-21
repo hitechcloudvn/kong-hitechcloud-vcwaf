@@ -1,7 +1,7 @@
 # Kong HiTechCloud vCWAF Plugin
 Kong plugin for HiTechCloud vCWAF Web Application Firewall (WAF). This plugin is used to protect your API from malicious requests. It can be used to block requests that contain malicious content in the request body, query parameters, headers, or URI.
 
-## Safeline Prepare
+## HiTechCloud vCWAF Prepare
 The detection engine of the HiTechCloud vCWAF provides services by default via Unix socket. We need to modify it to use TCP, so it can be called by the t1k plugin.
 
 1.Navigate to the configuration directory of the HiTechCloud vCWAF detection engine:
