@@ -1,13 +1,13 @@
 package = "kong-hitechcloud-vcwaf"
 version = "1.0.7-1"
 source = {
-   url = "git://github.com/hitechcloud-vietnam/kong-hitechcloud-vcwaf.git",
+   url = "https://github.com/hitechcloudvn/kong-hitechcloud-vcwaf.git",
 }
 description = {
    summary = "Kong plugin for HiTechCloud vCWAF Web Application Firewall",
-   homepage = "https://github.com/hitechcloud-vietnam/HiTechCloud vCWAF",
+   homepage = "https://github.com/hitechcloudvn/HiTechCloud_vCWAF",
    license = "Apache License 2.0",
-   maintainer = "Xiaobing Wang <xiaobing.wang@hitechcloud-vietnam.com>"
+   maintainer = "Xiaobing Wang <xiaobing.wang@hitechcloud.vn>"
 }
 dependencies = {
    "lua-resty-t1k >= 1.1.5"

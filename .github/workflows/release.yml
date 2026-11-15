@@ -1,0 +1,47 @@
+# Release workflow — create a GitHub Release when a v* tag is pushed.
+# Can also be run manually (workflow_dispatch) for an existing tag if the tag-push
+# event was missed. Releases are published by CI only (no local release builds).
+# Workflow phát hành: tạo GitHub Release khi push tag v*; chạy thủ công
+# (workflow_dispatch) cho tag hiện có nếu sự kiện push tag bị bỏ lỡ.
+# Ghi chú phát hành song ngữ Anh–Việt / bilingual (EN–VI) release notes.
+name: release
+
+on:
+  push:
+    tags: [ 'v*' ]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to release (e.g. v1.0.7) / Tag sẽ phát hành (vd: v1.0.7)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+
+      - name: Install LuaRocks
+        run: sudo apt-get update && sudo apt-get install -y luarocks
+
+      - name: Validate rockspec for the release tag
+        env:
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: luarocks lint "kong-hitechcloud-vcwaf-${RELEASE_TAG#v}-1.rockspec"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          gh release create "$RELEASE_TAG" \
+            --title "$RELEASE_TAG" \
+            --generate-notes \
+            --notes $'## English\nKong plugin for the HiTechCloud vCWAF Web Application Firewall.\n\n## Tiếng Việt\nPlugin Kong cho Web Application Firewall HiTechCloud vCWAF.\n'
